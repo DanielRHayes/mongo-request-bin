@@ -1,25 +1,27 @@
 "use strict";
 const io = require("socket.io-client");
 const port = process.env.PORT || 3000;
-const socket = io(`http://localhost:${port}`);
+const socket = io('https://mongorequestbin.herokuapp.com');
 const request = require("request");
 
-let bucketName = process.argv[2];
-let url = process.argv[3];
+const bucketName = process.argv[2];
+const forwardingUrl = process.argv[3];
 
 socket.on("webhook", webhook => {
-  console.log("there is a webhook:", webhook);
   if (bucketName === webhook.bucket) {
-      console.log("there is a match");
+    console.log(`${new Date()} - Received webhook from ${bucketName}`);
     request.post(
       {
-        //forwarding url
-        url,
-        body: webhook,
+        url: forwardingUrl,
+        body: webhook.body,
         json: true
       },
-      function(error, response, body) {
-        console.log(body);
+      function (err, response, body) {
+        if(err){
+          console.log(err);
+          process.exit(1);
+        }
+        console.log(`${new Date()} - Successfully forwarded webhook to ${forwardingUrl}`);
       }
     );
   }
