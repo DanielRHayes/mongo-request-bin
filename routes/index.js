@@ -1,9 +1,8 @@
-'use strict';
-const express = require('express');
+"use strict";
+const express = require("express");
 const router = express.Router();
-
-const webhookModel = require('../models/webhooks');
-
+const socketService = require("../bin/socketService");
+const webhookModel = require("../models/webhooks");
 
 /**
  * @api {get} / Get Buckets
@@ -95,12 +94,12 @@ router.all('/:bucket', async function (req, res, next) {
         obj.bucket = req.params.bucket;
     }
     try {
-        await webhookModel.create(obj);
+      await webhookModel.create(obj);
     } catch (err) {
-        return next(err);
+      return next(err);
     }
+    socketService.emit("webhook", obj);
     return res.send('Success');
 });
-
 
 module.exports = router;

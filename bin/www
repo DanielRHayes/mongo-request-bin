@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('mongo-request-bin:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('mongo-request-bin:server');
+const http = require('http');
+const socketService = require("./socketService");
 
 /**
  * Get port from environment and store in Express.
@@ -16,10 +17,11 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP server and start socket.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
+socketService.setServer(server);
 
 /**
  * Listen on provided port, on all network interfaces.

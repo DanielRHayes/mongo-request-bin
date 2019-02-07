@@ -1,11 +1,11 @@
 'use strict';
-
 const express = require('express');
+const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/request-bin';
 
 mongoose.connect(mongoUri, function (err) {
   if (err) {
@@ -13,8 +13,6 @@ mongoose.connect(mongoUri, function (err) {
   }
   console.log('connect to mongodb');
 });
-
-const app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

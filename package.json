@@ -14,12 +14,15 @@
     }
   },
   "dependencies": {
-    "body-parser": "1.18.3",
-    "cookie-parser": "1.4.3",
-    "debug": "2.6.9",
-    "express": "4.16.4",
-    "mongoose": "5.1.6",
-    "morgan": "1.9.1"
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.9",
+    "express": "^4.16.4",
+    "mongoose": "^5.1.6",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "apidoc-markdown": "^0.2.1",
