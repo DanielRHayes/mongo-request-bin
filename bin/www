@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('../lib/app');
 const debug = require('debug')('mongo-request-bin:server');
 const http = require('http');
-const socketService = require("./socketService");
+const socketService = require('../lib/socketService');
 
 /**
  * Get port from environment and store in Express.
@@ -52,7 +52,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server 'error' event.
  */
 
 function onError(error) {
@@ -80,7 +80,7 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP server 'listening' event.
  */
 
 function onListening() {
