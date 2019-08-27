@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+const request = require('request');
+const promptly = require('promptly');
+const util = require('util');
+
+const get = util.promisify(request.get);
+const post = util.promisify(request.post);
+
+const config = require('../config');
+
+async function waitFor(waitForMs, options = { log: true }) {
+  return new Promise(function (resolve, reject) {
+    if (options.log) {
+      console.log(`waiting for ${waitForMs}ms`);
+    }
+    setTimeout(function () {
+      if (options.log) {
+        console.log('done waiting');
+      }
+      return resolve();
+    }, waitForMs);
+  });
+}
+
+async function main(options = { log: true }) {
+  const bucket = await promptly.prompt('Which bucket?: ');
+  const sinceId = await promptly.prompt('Since? (objectId): ');
+  const forwardUrl = await promptly.prompt('Forward to what url?: ');
+
+  const serverUrl = config.WEBHOOK_SERVER;
+
+  if (!serverUrl) {
+    console.log('you must set WEBHOOK_SERVER in config.js (without a trailing `/`');
+  }
+
+  let notFinished = false;
+  let currentId = sinceId;
+
+  // get since webhook
+  let result = await get(`${serverUrl}/${bucket}/${currentId}`);
+
+  currentId = result._next;
+
+  while (notFinished) {
+    if (!currentId) {
+      break;
+    }
+    // get the webhook
+    result = await get(`${serverUrl}/${bucket}/${currentId}`);
+    if (options.log) {
+      console.log(`fetched webhook - ${result._id}`);
+    }
+
+    // forward
+    await post({
+      url: forwardUrl,
+      body: result.webhook
+    });
+    if (options.log) {
+      console.log('forwarded webhook');
+    }
+
+    await waitFor(100);
+
+    // set next
+    currentId = result.nextWebhook;
+
+  }
+
+  if (options.log) {
+    console.log('done');
+  }
+
+}
+
+main();
