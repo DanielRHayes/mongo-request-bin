@@ -33,13 +33,20 @@ async function main(options = { log: true }) {
     console.log('you must set WEBHOOK_SERVER in config.js (without a trailing `/`');
   }
 
-  let notFinished = false;
+  let notFinished = true;
   let currentId = sinceId;
 
   // get since webhook
   let result = await get(`${serverUrl}/${bucket}/${currentId}`);
 
-  currentId = result._next;
+  // const path = require('path');
+  // const fs = require('fs');
+  // fs.writeFileSync(path.join(__dirname, './data.json'), JSON.stringify(result, null, 2));
+  // console.log(result.body);
+
+  currentId = result.body.nextWebhook;
+
+  console.log('current id', currentId);
 
   while (notFinished) {
     if (!currentId) {
@@ -63,7 +70,7 @@ async function main(options = { log: true }) {
     await waitFor(100);
 
     // set next
-    currentId = result.nextWebhook;
+    currentId = result.body.nextWebhook;
 
   }
 
