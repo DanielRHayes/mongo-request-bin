@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "./bin/www",
-    "docs": "npm run docs:html && npm run docs:markdown",
-    "docs:html": "./node_modules/.bin/apidoc -i routes -o docs",
-    "docs:markdown": "./node_modules/.bin/apidoc-markdown -p docs -o README.md"
+    "start": "./bin/www"
   },
   "config": {
     "commitizen": {
@@ -14,19 +11,17 @@
     }
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "debug": "^2.6.9",
-    "express": "^4.16.4",
-    "mongoose": "^5.1.6",
-    "morgan": "^1.9.1",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.7",
-    "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0"
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.3",
+    "debug": "2.6.9",
+    "express": "4.16.4",
+    "mongoose": "^5.7.13",
+    "morgan": "1.9.1",
+    "request": "2.88.0",
+    "socket.io": "2.2.0",
+    "socket.io-client": "2.2.0"
   },
   "devDependencies": {
-    "apidoc-markdown": "^0.2.1",
     "cz-customizable": "5.3.0"
   }
 }
