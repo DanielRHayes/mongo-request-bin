@@ -13,7 +13,7 @@ const forwardingUrl = process.argv[3];
 
 if (!bucketName || !forwardingUrl) {
   console.log();
-  console.log('incorrect useage, params are: <bucketName> <forwardingUrl>');
+  console.log('incorrect usage, params are: <bucketName> <forwardingUrl>');
   console.log();
   process.exit(1);
 }
