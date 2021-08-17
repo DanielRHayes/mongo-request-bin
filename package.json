@@ -1,28 +1,18 @@
 {
   "name": "mongo-request-bin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "./bin/www"
   },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-customizable"
-    }
-  },
   "dependencies": {
-    "body-parser": "1.18.3",
-    "cookie-parser": "1.4.3",
     "debug": "2.6.9",
     "express": "4.16.4",
-    "mongoose": "5.7.13",
+    "mongoose": "5.13.7",
     "morgan": "1.9.1",
-    "proxy-agent": "^3.1.1",
+    "proxy-agent": "5.0.0",
     "request": "2.88.0",
     "socket.io": "2.2.0",
     "socket.io-client": "2.2.0"
-  },
-  "devDependencies": {
-    "cz-customizable": "5.3.0"
   }
 }
