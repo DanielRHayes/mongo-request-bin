@@ -828,6 +828,11 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+mute-stream@~0.0.4:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
+  integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
+
 negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
@@ -837,6 +842,11 @@ netmask@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
+
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -943,6 +953,13 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
+promptly@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/promptly/-/promptly-3.2.0.tgz#a5517fbbf59bd31c1751d4e1d9bef1714f42b9d8"
+  integrity sha512-WnR9obtgW+rG4oUV3hSnNGl1pHm3V1H/qD9iJBumGSmVsSC5HpZOLuu8qdMb6yCItGfT7dcRszejr/5P3i9Pug==
+  dependencies:
+    read "^1.0.4"
+
 proxy-addr@~2.0.4:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
@@ -1014,6 +1031,13 @@ raw-body@^2.2.0:
     http-errors "1.7.3"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+read@^1.0.4:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/read/-/read-1.0.7.tgz#b3da19bd052431a97671d44a42634adf710b40c4"
+  integrity sha1-s9oZvQUkMal2cdRKQmNK33ELQMQ=
+  dependencies:
+    mute-stream "~0.0.4"
 
 readable-stream@1.1.x:
   version "1.1.14"

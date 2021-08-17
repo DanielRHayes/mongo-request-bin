@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+const path = require('path');
+const promptly = require('promptly');
+const fetch = require('node-fetch');
+
+const SERVER_URL = 'https://web-hook-bin.herokuapp.com';
+
+const hardCodedPass = require('./password');
+
+async function main() {
+  const resetUrl = `${SERVER_URL}/reset`;
+
+  let password = hardCodedPass;
+  if (hardCodedPass === '') {
+    password = await promptly.password('Reset password: ');
+  }
+  const body = { password };
+  const headers = { 'Content-Type': 'application/json' };
+
+  const response = await fetch(resetUrl, { method: 'POST', body: JSON.stringify(body), headers: headers });
+
+  console.log('response', response);
+  const data = await response.json();
+
+  console.log('data is', data);
+  return data;
+}
+
+main()
+  .then(function (data) {
+    console.log(data);
+  })
+  .catch(function (err) {
+    console.error(err);
+  });
