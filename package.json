@@ -6,7 +6,7 @@
     "format:package-json": "npx prettier-package-json --write ./package.json",
     "start": "npm run build && ./bin/www",
     "build": "npm run build:tsc",
-    "build:tsc": "rm -rf ./dist && npx tsc",
+    "build:tsc": "rm -rf ./dist && tsc",
     "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
   },
   "dependencies": {
