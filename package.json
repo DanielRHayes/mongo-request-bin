@@ -13,7 +13,7 @@
     "express": "4.16.4",
     "mongoose": "6.6.5",
     "morgan": "1.9.1",
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.7",
     "promptly": "3.2.0",
     "proxy-agent": "5.0.0",
     "request": "2.88.0",
