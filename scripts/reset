@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const path = require('path');
 const promptly = require('promptly');
 const fetch = require('node-fetch');
 

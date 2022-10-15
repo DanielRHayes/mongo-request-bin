@@ -4,18 +4,20 @@
   "version": "0.1.0",
   "scripts": {
     "format:package-json": "npx prettier-package-json --write ./package.json",
-    "start": "./bin/www"
+    "start": "./bin/www",
+    "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
   },
   "dependencies": {
     "debug": "2.6.9",
+    "dotenv": "^16.0.3",
     "express": "4.16.4",
-    "mongoose": "5.13.7",
+    "mongoose": "6.6.5",
     "morgan": "1.9.1",
+    "node-fetch": "2.6.1",
+    "promptly": "3.2.0",
     "proxy-agent": "5.0.0",
     "request": "2.88.0",
     "socket.io": "4.1.3",
-    "socket.io-client": "4.1.3",
-    "promptly": "3.2.0",
-    "node-fetch": "2.6.1"
+    "socket.io-client": "4.1.3"
   }
 }
