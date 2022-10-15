@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "scripts": {
     "format:package-json": "npx prettier-package-json --write ./package.json",
-    "start": "./bin/www",
+    "start": "npm run build && ./bin/www",
+    "build": "npm run build:tsc",
+    "build:tsc": "rm -rf ./dist && npx tsc",
     "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
   },
   "dependencies": {
@@ -18,5 +20,8 @@
     "request": "2.88.0",
     "socket.io": "4.1.3",
     "socket.io-client": "4.1.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
   }
 }

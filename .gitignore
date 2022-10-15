@@ -1,5 +1,12 @@
+# system files
 .DS_Store
-node_modules/
-docs/
 
+# environment
 .env
+
+# dependencies
+node_modules/
+
+# builds
+dist/
+
