@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-const { cleanUrl } = require('../dist/utils/url');
-const promptly = require('promptly');
-const fetch = require('node-fetch');
-
 require('dotenv').config();
+
+const promptly = require('promptly');
+const { resetBin } = require('../dist/actions');
 
 const REMOTE_REQUEST_BIN_URL = process.env.REMOTE_REQUEST_BIN_URL;
 if (!REMOTE_REQUEST_BIN_URL) {
@@ -14,26 +13,14 @@ if (!REMOTE_REQUEST_BIN_URL) {
 const REMOTE_REQUEST_BIN_PASSWORD = process.env.REMOTE_REQUEST_BIN_PASSWORD;
 
 async function main() {
-  const resetUrl = `${REMOTE_REQUEST_BIN_URL}/reset`;
-
   let password = REMOTE_REQUEST_BIN_PASSWORD || '';
   if (!REMOTE_REQUEST_BIN_PASSWORD || REMOTE_REQUEST_BIN_PASSWORD === '') {
     password = await promptly.password('Reset password: ');
   }
-
-  const response = await fetch(resetUrl, {
-    method: 'POST',
-    body: JSON.stringify({ password }),
-    headers: { 'Content-Type': 'application/json' },
-  });
-  const data = await response.json();
+  const data = await resetBin(REMOTE_REQUEST_BIN_URL, password);
   return data;
 }
 
 main()
-  .then(function (data) {
-    console.log(data);
-  })
-  .catch(function (err) {
-    console.error(err);
-  });
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));

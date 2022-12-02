@@ -1,12 +1,10 @@
-'use strict';
+import express from 'express';
+import config from './config';
+import socketService from './socketService';
+import webhookModel from './models/webhooks';
+import { logger } from './Logger';
 
-const express = require('express');
 const router = express.Router();
-
-const config = require('./config');
-const socketService = require('./socketService');
-const webhookModel = require('./models/webhooks');
-const { logger } = require('./Logger');
 
 /**
  * @api {get} / Get Buckets
@@ -89,7 +87,7 @@ router.post('/reset', async function (req, res, next) {
 });
 
 router.all('/:bucket', async function (req, res, next) {
-  const obj = {
+  const webhookEvent = {
     bucket: req.params.bucket,
     method: req.method,
     headers: req.headers,
@@ -97,26 +95,22 @@ router.all('/:bucket', async function (req, res, next) {
     ipAddress: req.ip,
   };
   if (req.params.bucket) {
-    obj.bucket = req.params.bucket;
+    webhookEvent.bucket = req.params.bucket;
   }
-  logger.info('received webhook', obj);
+  logger.info('received webhook', webhookEvent);
   try {
-    const webhook = new webhookModel(obj);
+    const webhook = new webhookModel(webhookEvent);
     await webhook.save();
   } catch (err) {
     return next(err);
   }
-  socketService.emit('webhook', obj);
+  socketService.emit('webhook', webhookEvent);
   return res.send('Success');
 });
 
-router.use(function (err, req, res, next) {
-  logger.log('Received an error');
+router.use(function (err, _req, res, _next) {
   logger.error(err);
-  return res.json({
-    message: err.message,
-    stack: err.stack,
-  });
+  return res.json({ message: err.message, stack: err.stack });
 });
 
 module.exports = router;
