@@ -31,19 +31,19 @@ router.get('/', async function (req, res, next) {
 router.get('/:bucket/most-recent', async function (req, res, next) {
   const qry = { _id: req.params.id, bucket: req.params.bucket };
 
-  let result = {};
+  let results = {};
   try {
-    result = await webhookModel.find(qry).sort({ receivedDateTime: -1 }).limit(1);
+    results = await webhookModel.find(qry).sort({ _id: -1 }).limit(1);
   } catch (err) {
     return next(err);
   }
 
   // ability to show only the body of the request if you pass in "?only=body"
   if (req.query && req.query.only === 'body') {
-    return result.body;
+    return results[0]?.body;
   }
 
-  return res.json(result);
+  return res.json(results[0]);
 });
 
 /**
