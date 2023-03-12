@@ -64,6 +64,12 @@ router.get('/:bucket', async function (req, res, next) {
   } catch (err) {
     return next(err);
   }
+
+  // ability to show only the body of the request if you pass in "?only=body"
+  if (req.query && req.query.only === 'body') {
+    return res.json(results.map((r) => r.body));
+  }
+
   return res.json(results);
 });
 
