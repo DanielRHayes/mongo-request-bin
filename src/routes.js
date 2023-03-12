@@ -28,6 +28,24 @@ router.get('/', async function (req, res, next) {
   return res.json(obj);
 });
 
+router.get('/:bucket/most-recent', async function (req, res, next) {
+  const qry = { _id: req.params.id, bucket: req.params.bucket };
+
+  let result = {};
+  try {
+    result = await webhookModel.find(qry).sort({ receivedDateTime: -1 }).limit(1);
+  } catch (err) {
+    return next(err);
+  }
+
+  // ability to show only the body of the request if you pass in "?only=body"
+  if (req.query && req.query.only === 'body') {
+    return result.body;
+  }
+
+  return res.json(result);
+});
+
 /**
  * @api {get} /:bucketName/:webhookId Get Webhook
  * @apiName Get Webhook
@@ -39,13 +57,19 @@ router.get('/:bucket/:id', async function (req, res, next) {
     _id: req.params.id,
     bucket: req.params.bucket,
   };
-  let results = {};
+  let result = {};
   try {
-    results = await webhookModel.findOne(qry);
+    result = await webhookModel.findOne(qry);
   } catch (err) {
     return next(err);
   }
-  return res.json(results);
+
+  // ability to show only the body of the request if you pass in "?only=body"
+  if (req.query && req.query.only === 'body') {
+    return result.body;
+  }
+
+  return res.json(result);
 });
 
 /**
