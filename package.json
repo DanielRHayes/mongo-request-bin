@@ -3,10 +3,9 @@
   "name": "mongo-request-bin",
   "version": "0.1.0",
   "scripts": {
-    "format:package-json": "npx prettier-package-json --write ./package.json",
-    "start": "npm run build && ./bin/www",
-    "build": "npm run build:tsc",
-    "build:tsc": "rm -rf ./dist && npx tsc",
+    "start": "./bin/www",
+    "dev": "npm run build && nodemon ./bin/www",
+    "build": "rm -rf ./dist && npx tsc",
     "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
   },
   "dependencies": {

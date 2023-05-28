@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // not sure why I have the self signed cert issue
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 require('dotenv').config();
 

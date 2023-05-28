@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import logger from 'morgan';
-
-dotenv.config();
 
 const app = express();
 
