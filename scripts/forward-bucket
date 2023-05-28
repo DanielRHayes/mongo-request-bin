@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
 // not sure why I have the self signed cert issue
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 require('dotenv').config();
+const pino = require('pino');
+
+const logger = pino({ transport: { target: 'pino-pretty', options: { colorize: true } } });
 
 const REMOTE_REQUEST_BIN_URL = process.env.REMOTE_REQUEST_BIN_URL;
 if (!REMOTE_REQUEST_BIN_URL) {
@@ -11,7 +14,7 @@ if (!REMOTE_REQUEST_BIN_URL) {
 }
 
 const io = require('socket.io-client');
-const socket = io('https://web-hook-bin.herokuapp.com');
+const socket = io(REMOTE_REQUEST_BIN_URL);
 const request = require('request');
 
 const bucketName = process.argv[2];
@@ -24,9 +27,24 @@ if (!bucketName || !forwardingUrl) {
   process.exit(1);
 }
 
+function logStartingInfo() {
+  console.log();
+  console.log('Starting Webhook Forwarder');
+  console.log('--------------------------');
+  console.log(`  Source Url: ${REMOTE_REQUEST_BIN_URL}`);
+  console.log(`  Source Bucket: ${bucketName}`);
+  console.log(`  Forwarding to: ${forwardingUrl}`);
+  console.log('--------------------------');
+  console.log();
+}
+
+function logWebhook(webhook) {}
+
+logStartingInfo();
+
 socket.on('webhook', (webhook) => {
   if (bucketName === webhook.bucket) {
-    console.log(`${new Date()} - Received webhook from ${bucketName}`);
+    logger.info({ body: webhook.body }, 'received webhook');
     const reqObj = { url: forwardingUrl, body: webhook.body, json: true };
 
     if (webhook.headers && webhook.headers.authorization) {
@@ -38,10 +56,7 @@ socket.on('webhook', (webhook) => {
         console.log(err);
         process.exit(1);
       }
-      console.log(`${new Date()} - Successfully forwarded webhook to ${forwardingUrl}`);
+      logger.info({ body: webhook.body }, 'forwarded webhook');
     });
   }
 });
-
-// log start
-console.log(`Forwarding bucket ${bucketName} to ${forwardingUrl}`);
