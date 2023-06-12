@@ -38,8 +38,6 @@ function logStartingInfo() {
   console.log();
 }
 
-function logWebhook(webhook) {}
-
 logStartingInfo();
 
 socket.on('webhook', (webhook) => {
