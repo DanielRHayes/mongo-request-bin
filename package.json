@@ -1,27 +1,22 @@
 {
-  "private": true,
-  "name": "mongo-request-bin",
-  "version": "0.1.0",
-  "scripts": {
-    "format:package-json": "npx prettier-package-json --write ./package.json",
-    "start": "npm run build && ./bin/www",
-    "build": "npm run build:tsc",
-    "build:tsc": "rm -rf ./dist && npx tsc",
-    "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
+  "name": "root",
+  "version": "1.0.0",
+  "packageManager": "npm",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
   },
-  "dependencies": {
-    "debug": "^2.6.9",
-    "dotenv": "^16.0.3",
-    "express": "^4.16.4",
-    "mongoose": "^6.6.5",
-    "morgan": "^1.9.1",
-    "node-fetch": "^2.6.1",
-    "pino": "^8.14.1",
-    "pino-pretty": "^10.0.0",
-    "promptly": "^3.2.0",
-    "request": "^2.88.0",
-    "socket.io": "^4.1.3",
-    "socket.io-client": "^4.1.3",
-    "typescript": "^4.8.4"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.3"
+  },
+  "scripts": {
+    "start": "cd apps/server && npm run start",
+    "build": "turbo build",
+    "mongo": "docker run -d -p 27017:27017 mongo",
+    "mongo:console": "docker exec -ti $(docker ps --filter 'ancestor=mongo' --format '{{.Names}}') bin/bash"
   }
 }

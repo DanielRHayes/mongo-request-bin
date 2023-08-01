@@ -1,12 +1,10 @@
-'use strict';
+import express from 'express';
+import { socketService } from './services/SocketService';
+import { WebhookModel } from './models/Webhook';
+import { logger } from './logger';
+import { requirePassword } from './middleware';
 
-const express = require('express');
 const router = express.Router();
-
-const config = require('./config');
-const socketService = require('./socketService');
-const webhookModel = require('./models/webhooks');
-const { logger } = require('./Logger');
 
 /**
  * @api {get} / Get Buckets
@@ -18,7 +16,7 @@ const { logger } = require('./Logger');
 router.get('/', async function (req, res, next) {
   let results;
   try {
-    results = await webhookModel.distinct('bucket');
+    results = await WebhookModel.distinct('bucket');
   } catch (err) {
     return next(err);
   }
@@ -33,7 +31,7 @@ router.get('/:bucket/most-recent', async function (req, res, next) {
 
   let results = {};
   try {
-    results = await webhookModel.find({ bucket }).sort({ _id: -1 }).limit(1);
+    results = await WebhookModel.find({ bucket }).sort({ _id: -1 }).limit(1);
   } catch (err) {
     return next(err);
   }
@@ -53,23 +51,13 @@ router.get('/:bucket/most-recent', async function (req, res, next) {
  * @apiDescription get a specific webhook from a bucket
  */
 router.get('/:bucket/:id', async function (req, res, next) {
-  const qry = {
-    _id: req.params.id,
-    bucket: req.params.bucket,
-  };
-  let result = {};
+  const onlyBody = req.query && req.query.only === 'body';
   try {
-    result = await webhookModel.findOne(qry);
+    const result = await WebhookModel.findOne({ _id: req.params.id, bucket: req.params.bucket });
+    return res.json(onlyBody ? result.body : result);
   } catch (err) {
     return next(err);
   }
-
-  // ability to show only the body of the request if you pass in "?only=body"
-  if (req.query && req.query.only === 'body') {
-    return result.body;
-  }
-
-  return res.json(result);
 });
 
 /**
@@ -79,22 +67,13 @@ router.get('/:bucket/:id', async function (req, res, next) {
  * @apiDescription gets the most recent webhooks from the bucket from newest to oldest
  */
 router.get('/:bucket', async function (req, res, next) {
-  const qry = {
-    bucket: req.params.bucket,
-  };
-  let results = {};
+  const onlyBody = req.query && req.query.only === 'body';
   try {
-    results = await webhookModel.find(qry).sort({ _id: -1 }).limit(50);
+    const results = await WebhookModel.find({ bucket: req.params.bucket }).sort({ _id: -1 }).limit(50);
+    return res.json(onlyBody ? results.map((r) => r.body) : results);
   } catch (err) {
     return next(err);
   }
-
-  // ability to show only the body of the request if you pass in "?only=body"
-  if (req.query && req.query.only === 'body') {
-    return res.json(results.map((r) => r.body));
-  }
-
-  return res.json(results);
 });
 
 /**
@@ -105,17 +84,13 @@ router.get('/:bucket', async function (req, res, next) {
  *
  * @apiParam {String} password the password to reset the server from the environment variable `RESET_PASSWORD` the server
  */
-router.post('/reset', async function (req, res, next) {
-  const password = req.body && req.body.password;
-  if (password !== config.password) {
-    return res.json({ success: false, message: 'Invalid password' });
-  }
+router.post('/reset', requirePassword, async function (_req, res, next) {
   try {
-    await webhookModel.remove({});
+    await WebhookModel.remove({});
+    return res.json({ success: true, message: 'All webhooks were reset' });
   } catch (err) {
     return next(err);
   }
-  return res.json({ success: true, message: 'All webhooks were reset' });
 });
 
 router.all('/:bucket', async function (req, res, next) {
@@ -131,22 +106,18 @@ router.all('/:bucket', async function (req, res, next) {
   }
   logger.info('received webhook', obj);
   try {
-    const webhook = new webhookModel(obj);
+    const webhook = new WebhookModel(obj);
     await webhook.save();
   } catch (err) {
     return next(err);
   }
-  socketService.emit('webhook', obj);
+  socketService.emitSocketMessage('webhook', obj);
   return res.send('Success');
 });
 
-router.use(function (err, req, res, next) {
-  logger.log('Received an error');
-  logger.error(err);
-  return res.json({
-    message: err.message,
-    stack: err.stack,
-  });
+router.use(function (err, _req, res, _next) {
+  logger.error('Received an error', err);
+  return res.json({ message: err.message, stack: err.stack });
 });
 
-module.exports = router;
+export default router;

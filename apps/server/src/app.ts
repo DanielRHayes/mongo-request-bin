@@ -1,8 +1,7 @@
-import * as dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
 
-dotenv.config();
+import router from './routes';
 
 const app = express();
 
@@ -10,7 +9,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(require('./routes'));
+app.use(router);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
