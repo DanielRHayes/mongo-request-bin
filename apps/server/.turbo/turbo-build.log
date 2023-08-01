@@ -1,8 +1,0 @@
-
-> mongo-request-bin@0.1.0 build
-> npm run build:tsc
-
-
-> mongo-request-bin@0.1.0 build:tsc
-> rm -rf ./dist && npx tsc
-

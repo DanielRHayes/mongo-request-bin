@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const { RequestBinCli } = require('../dist/index');
+const cli = new RequestBinCli();
+cli.execute();

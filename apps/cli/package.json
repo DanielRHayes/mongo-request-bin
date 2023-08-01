@@ -1,0 +1,20 @@
+{
+  "name": "cli",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs --dts",
+    "change": "beachball change",
+    "check": "beachball check",
+    "release": "beachball publish"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@rushstack/ts-command-line": "^4.15.1"
+  },
+  "devDependencies": {
+    "tsup": "7.1.0"
+  }
+}
