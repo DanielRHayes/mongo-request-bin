@@ -1,49 +1,25 @@
-# mongo-request-bin v0.0.0
+# Webhooks
 
+- Tool to forward webhooks to your local development environment.
 
+# Installation
 
-- [API](#api)
-	- [Get Buckets](#get-buckets)
-	- [Get Webhook](#get-webhook)
-	- [Get Webhooks from Bucket](#get-webhooks-from-bucket)
-	- [Reset](#reset)
-	
+```
+git clone git@github.com:angellist/devhooks.git
+cd devhooks
+npm i
+npm i -g .
+```
 
+# Usage
 
-# API
+* forward webhooks for the Main Treasury Prime 
 
-## Get Buckets
+```
+devhooks --help
 
-<p>gets a list of all the buckets on the server</p>
+# treasury prime presets 
+devhook tprime --name main
+devhook tprime --name manco
 
-	GET /
-
-
-## Get Webhook
-
-<p>get a specific webhook from a bucket</p>
-
-	GET /:bucketName/:webhookId
-
-
-## Get Webhooks from Bucket
-
-<p>gets the most recent webhooks from the bucket from newest to oldest</p>
-
-	GET /:bucketName
-
-
-## Reset
-
-<p>deletes all the webhooks in the database</p>
-
-	POST /reset
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| password			| String			|  <p>the password to reset the server from the environment variable <code>RESET_PASSWORD</code> the server</p>							|
-
-
+```

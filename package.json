@@ -1,7 +1,8 @@
 {
   "private": true,
-  "name": "mongo-request-bin",
+  "name": "devhooks",
   "version": "0.1.0",
+  "bin": "./bin/cli",
   "scripts": {
     "format:package-json": "npx prettier-package-json --write ./package.json",
     "start": "npm run build && ./bin/www",
@@ -10,6 +11,7 @@
     "docker:mongo": "docker run -d -p 27017:27017 --name mongo mongo:latest"
   },
   "dependencies": {
+    "@rushstack/ts-command-line": "4.15.2",
     "debug": "^2.6.9",
     "dotenv": "^16.0.3",
     "express": "^4.16.4",
